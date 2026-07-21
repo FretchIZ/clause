@@ -1182,7 +1182,9 @@ export default function App() {
     ta.style.height = Math.min(ta.scrollHeight, 180) + "px"
   }
 
-  const send = (text?: string) => {
+  const API_URL = "http://localhost:8833"
+
+  const send = async (text?: string) => {
     const content = (text ?? input).trim()
     if (!content) return
     setIsNew(false)
@@ -1205,23 +1207,35 @@ export default function App() {
     }
     setMessages((prev) => [...prev, userMsg, typingMsg])
 
-    const REPLIES = [
-      "`React.memo` wraps a **component** to prevent re-renders when props haven't changed. `useMemo` memoizes a **computed value**.\n\n```tsx\nconst List = React.memo(({ items }: { items: string[] }) => (\n  <ul>{items.map(i => <li key={i}>{i}</li>)}</ul>\n))\n\nconst filtered = useMemo(\n  () => items.filter(x => x.active),\n  [items]\n)\n\n// Without useMemo, filtered is a new array reference each render\n// — React.memo sees new props and re-renders anyway\n<List items={filtered} />\n```\n\nThey pair together: `useMemo` keeps references stable so `React.memo`'s prop comparison actually works.",
-      "Good question! Think of them as operating at different levels:\n\n- **`React.memo`** — memoizes the *render output* of a component\n- **`useMemo`** — memoizes a *value* inside a component\n\nThe most common mistake is wrapping everything in `React.memo` without stabilizing the props passed to it. If you pass a new object or array each render, `React.memo` never helps because the reference always changes.",
-    ]
-    setTimeout(() => {
+    try {
+      const history = messages
+        .filter((m) => m.status === "sent")
+        .map((m) => ({ role: m.role, content: m.content }))
+      history.push({ role: "user", content })
+
+      const res = await fetch(`${API_URL}/chat`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ messages: history, model }),
+      })
+      if (!res.ok) throw new Error("API error")
+      const data = await res.json()
       setMessages((prev) =>
         prev.map((m) =>
           m.status === "typing"
-            ? {
-                ...m,
-                content: REPLIES[Math.floor(Math.random() * REPLIES.length)],
-                status: "sent",
-              }
+            ? { ...m, content: data.reply, status: "sent" as const }
             : m,
         ),
       )
-    }, 1300)
+    } catch {
+      setMessages((prev) =>
+        prev.map((m) =>
+          m.status === "typing"
+            ? { ...m, content: "", status: "error" as const }
+            : m,
+        ),
+      )
+    }
   }
 
   const handleKey = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
