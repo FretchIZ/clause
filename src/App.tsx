@@ -77,7 +77,7 @@ const SAMPLE_CONVOS: Conversation[] = [
   },
 ]
 
-const MODELS = ["Claude Sonnet 4.6", "Claude Opus 4.8", "Claude Haiku 4.5"]
+const MODELS = ["Clause Sonnet 4.6", "Clause Opus 4.8", "Clause Haiku 4.5"]
 
 const INITIAL_MESSAGES: Message[] = [
   {
@@ -114,7 +114,7 @@ const INITIAL_MESSAGES: Message[] = [
 ]
 
 // ─── SVG Icons ────────────────────────────────────────────────────────────────
-const ClaudeIcon = ({ size = 28 }: { size?: number }) => (
+const ClauseIcon = ({ size = 28 }: { size?: number }) => (
   <svg width={size} height={size} viewBox="0 0 56 56" fill="none">
     <circle cx="28" cy="28" r="28" fill={C.orange} />
     <path
@@ -553,7 +553,7 @@ function MessageBubble({ msg }: { msg: Message }) {
   return (
     <div style={{ display: "flex", padding: "0 24px", marginBottom: 20 }}>
       <div style={{ marginRight: 10, marginTop: 2, flexShrink: 0 }}>
-        <ClaudeIcon size={28} />
+        <ClauseIcon size={28} />
       </div>
       <div style={{ flex: 1, minWidth: 0 }}>
         {msg.status === "typing" && <TypingDots />}
@@ -634,7 +634,7 @@ function EmptyState({ onPrompt }: { onPrompt: (p: string) => void }) {
         textAlign: "center",
       }}
     >
-      <ClaudeIcon size={56} />
+      <ClauseIcon size={56} />
       <h2
         style={{
           color: C.white,
@@ -770,7 +770,7 @@ function Sidebar({
           }}
         >
           <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
-            <ClaudeIcon size={26} />
+            <ClauseIcon size={26} />
             <span
               style={{
                 color: C.white,
@@ -779,7 +779,7 @@ function Sidebar({
                 letterSpacing: "-0.01em",
               }}
             >
-              Claude
+              Clause
             </span>
           </div>
           <button
@@ -1533,7 +1533,7 @@ export default function App() {
                   fontFamily: "Roboto, sans-serif",
                 }}
               >
-                Claude can make mistakes. Consider verifying important
+                Clause can make mistakes. Consider verifying important
                 information.
               </p>
             </div>
