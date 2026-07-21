@@ -1,15 +1,7 @@
 {
-  "buildCommand": "npm run build",
-  "outputDirectory": "dist",
   "functions": {
     "api/chat.js": {
       "maxDuration": 30
     }
-  },
-  "routes": [
-    { "src": "/api/chat", "dest": "/api/chat.js", "methods": ["POST"] },
-    { "src": "/assets/(.*)", "dest": "/assets/$1" },
-    { "handle": "filesystem" },
-    { "src": "/(.*)", "dest": "/index.html" }
-  ]
+  }
 }
