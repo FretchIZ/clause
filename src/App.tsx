@@ -1182,7 +1182,7 @@ export default function App() {
     ta.style.height = Math.min(ta.scrollHeight, 180) + "px"
   }
 
-  const API_URL = "http://localhost:8833"
+  const API_URL = import.meta.env.DEV ? "http://localhost:8833" : "/api"
 
   const send = async (text?: string) => {
     const content = (text ?? input).trim()
