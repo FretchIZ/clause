@@ -1,14 +1,18 @@
 export default async function handler(req, res) {
-  try {
-    if (req.method !== "POST") {
-      return res.status(405).json({ error: "Method not allowed" })
-    }
+  if (req.method !== "POST") {
+    return res.status(405).json({ error: "Method not allowed" })
+  }
 
-    const chunks = []
-    for await (const chunk of req) {
-      chunks.push(chunk)
-    }
-    const body = JSON.parse(Buffer.concat(chunks).toString())
+  try {
+    const body = await new Promise((resolve, reject) => {
+      let data = ""
+      req.on("data", (chunk) => { data += chunk })
+      req.on("end", () => {
+        try { resolve(JSON.parse(data)) } catch (e) { reject(e) }
+      })
+      req.on("error", reject)
+    })
+
     const { messages, model = "mistral-large-latest" } = body
 
     if (!messages) {
