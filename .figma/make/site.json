@@ -1,0 +1,10 @@
+{
+  "description": "Engage users with an intuitive chatbot designed for seamless interaction, offering quick answers and support tailored to enhance customer experiences.",
+  "robots": {
+    "index": false
+  },
+  "accessibility": {
+    "addBypassLinks": false,
+    "ignoreReducedMotion": false
+  }
+}
