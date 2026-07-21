@@ -4,7 +4,12 @@ export default async function handler(req, res) {
       return res.status(405).json({ error: "Method not allowed" })
     }
 
-    const { messages, model = "mistral-large-latest" } = req.body
+    const chunks = []
+    for await (const chunk of req) {
+      chunks.push(chunk)
+    }
+    const body = JSON.parse(Buffer.concat(chunks).toString())
+    const { messages, model = "mistral-large-latest" } = body
 
     if (!messages) {
       return res.status(400).json({ error: "messages is required" })
