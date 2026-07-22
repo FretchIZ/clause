@@ -48,7 +48,7 @@ export default function Admin() {
     }
 
     if (editSlug) {
-      await fetch(`/api/posts/${editSlug}`, {
+      await fetch(`/api/posts?slug=${editSlug}`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(body),
@@ -67,13 +67,13 @@ export default function Admin() {
 
   async function handleDelete(slug: string) {
     if (!confirm("Delete this post?")) return
-    await fetch(`/api/posts/${slug}`, { method: "DELETE" })
+    await fetch(`/api/posts?slug=${slug}`, { method: "DELETE" })
     fetchPosts()
   }
 
   async function handleEdit(post: Post) {
     setEditSlug(post.slug)
-    const res = await fetch(`/api/posts/${post.slug}`)
+    const res = await fetch(`/api/posts?slug=${post.slug}`)
     const data = await res.json()
     const full = data.post
     setTitle(full.title)

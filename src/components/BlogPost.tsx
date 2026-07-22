@@ -80,7 +80,7 @@ export default function BlogPost() {
   useEffect(() => {
     if (!slug) return
     setLoading(true)
-    fetch(`/api/posts/${slug}`)
+    fetch(`/api/posts?slug=${slug}`)
       .then((r) => {
         if (!r.ok) throw new Error("not found")
         return r.json()
