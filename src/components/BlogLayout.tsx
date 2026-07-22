@@ -21,22 +21,21 @@ export default function BlogLayout({ children }: { children: React.ReactNode }) 
   }, [])
 
   return (
-    <div className="min-h-screen bg-[#0a0a0a] text-[#e0e0e0]">
-      <header className="sticky top-0 z-50 border-b border-[#1a1a1a] bg-[#0a0a0a]/80 backdrop-blur-sm">
-        <div className="mx-auto flex h-16 max-w-6xl items-center justify-between px-4">
-          <Link to="/" className="flex items-center gap-2">
-            <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-gradient-to-br from-orange-500 to-amber-500 text-sm font-bold text-white">
-              T
-            </div>
-            <span className="text-lg font-semibold text-white">TechBlog</span>
+    <div className="min-h-screen bg-[#0a0a0a] text-[#ccc]">
+      <header className="sticky top-0 z-50 border-b border-[#111] bg-[#0a0a0a]/90 backdrop-blur-sm">
+        <div className="mx-auto flex h-14 max-w-5xl items-center justify-between px-4">
+          <Link to="/" className="flex items-center gap-2 group">
+            <span className="text-base font-medium tracking-tight text-white transition-colors group-hover:text-orange-400">
+              Webu.com
+            </span>
           </Link>
 
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-3">
             <button
               onClick={() => setSearchOpen(true)}
-              className="flex items-center gap-2 rounded-lg border border-[#1a1a1a] px-3 py-1.5 text-xs text-[#555] transition-colors hover:border-[#333] hover:text-white"
+              className="flex items-center gap-2 rounded-md border border-[#1a1a1a] px-2.5 py-1.5 text-xs text-[#555] transition-all hover:border-[#333] hover:text-white"
             >
-              <svg width="13" height="13" viewBox="0 0 16 16" fill="none">
+              <svg width="12" height="12" viewBox="0 0 16 16" fill="none">
                 <circle cx="6.5" cy="6.5" r="4" stroke="currentColor" strokeWidth="1.5" />
                 <path d="M9.5 9.5l3 3" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
               </svg>
@@ -49,10 +48,10 @@ export default function BlogLayout({ children }: { children: React.ReactNode }) 
                 <Link
                   key={n.path}
                   to={n.path}
-                  className={`rounded-lg px-3 py-2 text-sm transition-colors ${
+                  className={`rounded-md px-2.5 py-1.5 text-xs transition-colors ${
                     location.pathname === n.path
-                      ? "bg-[#1a1a1a] text-white"
-                      : "text-[#888] hover:bg-[#141414] hover:text-white"
+                      ? "bg-[#141414] text-white"
+                      : "text-[#555] hover:bg-[#111] hover:text-white"
                   }`}
                 >
                   {n.label}
@@ -65,11 +64,11 @@ export default function BlogLayout({ children }: { children: React.ReactNode }) 
 
       <SearchDialog open={searchOpen} onClose={() => setSearchOpen(false)} />
 
-      <main className="mx-auto max-w-6xl px-4 py-8">{children}</main>
+      <main className="mx-auto max-w-5xl px-4 py-12">{children}</main>
 
-      <footer className="border-t border-[#1a1a1a] py-8">
-        <div className="mx-auto max-w-6xl px-4 text-center text-sm text-[#555]">
-          <p>© 2026 TechBlog. Built with React, TypeScript & Tailwind CSS.</p>
+      <footer className="border-t border-[#111] py-10">
+        <div className="mx-auto max-w-5xl px-4 text-center text-xs text-[#333]">
+          <p>© 2026 Webu.com</p>
         </div>
       </footer>
     </div>

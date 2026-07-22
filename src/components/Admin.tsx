@@ -89,82 +89,77 @@ export default function Admin() {
   }
 
   return (
-    <div className="mx-auto max-w-5xl">
-      <div className="mb-8 flex items-center justify-between">
+    <div className="mx-auto max-w-3xl animate-fade-up">
+      <div className="mb-10 flex items-center justify-between">
         <div>
-          <div className="mb-2 inline-block rounded-full bg-orange-500/10 px-3 py-1 text-xs font-medium text-orange-400">
-            Admin
-          </div>
-          <h1 className="text-3xl font-bold text-white">Manage Posts</h1>
+          <h1 className="text-xl font-medium text-white">Posts</h1>
+          <p className="mt-1 text-xs text-[#555]">{posts.length} total</p>
         </div>
-        <Link to="/" className="text-sm text-[#555] transition-colors hover:text-white">
-          ← Back to blog
+        <Link to="/" className="text-xs text-[#333] transition-colors hover:text-white">
+          ← Home
         </Link>
       </div>
 
-      {/* Form */}
-      <form onSubmit={handleSubmit} className="mb-10 rounded-xl border border-[#1a1a1a] bg-[#0d0d0d] p-6">
-        <h2 className="mb-4 text-lg font-semibold text-white">
-          {editSlug ? "Edit Post" : "New Post"}
+      <form onSubmit={handleSubmit} className="mb-12 border border-[#111] bg-[#0d0d0d] p-5">
+        <h2 className="mb-5 text-sm font-medium text-white">
+          {editSlug ? "Edit" : "New post"}
         </h2>
         <div className="grid gap-4 sm:grid-cols-2">
           <div className="sm:col-span-2">
-            <label className="mb-1 block text-sm text-[#888]">Title</label>
             <input
               value={title}
               onChange={(e) => setTitle(e.target.value)}
+              placeholder="Title"
               required
-              className="w-full rounded-lg border border-[#1a1a1a] bg-[#0a0a0a] px-3 py-2 text-sm text-white outline-none transition-colors focus:border-orange-500"
+              className="w-full border-b border-[#1a1a1a] bg-transparent px-0 py-2 text-sm text-white outline-none transition-colors focus:border-orange-500"
             />
           </div>
           <div className="sm:col-span-2">
-            <label className="mb-1 block text-sm text-[#888]">Description</label>
             <input
               value={description}
               onChange={(e) => setDescription(e.target.value)}
-              className="w-full rounded-lg border border-[#1a1a1a] bg-[#0a0a0a] px-3 py-2 text-sm text-white outline-none transition-colors focus:border-orange-500"
+              placeholder="Description"
+              className="w-full border-b border-[#1a1a1a] bg-transparent px-0 py-2 text-sm text-white outline-none transition-colors focus:border-orange-500"
             />
           </div>
           <div>
-            <label className="mb-1 block text-sm text-[#888]">Category</label>
             <input
               value={category}
               onChange={(e) => setCategory(e.target.value)}
-              placeholder="React, TypeScript, etc."
-              className="w-full rounded-lg border border-[#1a1a1a] bg-[#0a0a0a] px-3 py-2 text-sm text-white outline-none transition-colors focus:border-orange-500"
+              placeholder="Category"
+              className="w-full border-b border-[#1a1a1a] bg-transparent px-0 py-2 text-sm text-white outline-none transition-colors focus:border-orange-500"
             />
           </div>
           <div>
-            <label className="mb-1 block text-sm text-[#888]">Tags (comma separated)</label>
             <input
               value={tags}
               onChange={(e) => setTags(e.target.value)}
-              placeholder="React, Hooks, Performance"
-              className="w-full rounded-lg border border-[#1a1a1a] bg-[#0a0a0a] px-3 py-2 text-sm text-white outline-none transition-colors focus:border-orange-500"
+              placeholder="Tags (comma separated)"
+              className="w-full border-b border-[#1a1a1a] bg-transparent px-0 py-2 text-sm text-white outline-none transition-colors focus:border-orange-500"
             />
           </div>
           <div className="sm:col-span-2">
-            <label className="mb-1 block text-sm text-[#888]">Content (Markdown)</label>
             <textarea
               value={content}
               onChange={(e) => setContent(e.target.value)}
-              rows={6}
-              className="w-full rounded-lg border border-[#1a1a1a] bg-[#0a0a0a] px-3 py-2 text-sm text-white outline-none transition-colors focus:border-orange-500"
+              placeholder="Content (Markdown)"
+              rows={8}
+              className="w-full border-b border-[#1a1a1a] bg-transparent px-0 py-2 text-sm text-white outline-none transition-colors focus:border-orange-500"
             />
           </div>
         </div>
-        <div className="mt-4 flex gap-3">
+        <div className="mt-5 flex gap-3">
           <button
             type="submit"
-            className="rounded-lg bg-orange-500 px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-orange-600"
+            className="rounded bg-orange-500 px-4 py-1.5 text-xs font-medium text-white transition-colors hover:bg-orange-600"
           >
-            {editSlug ? "Update" : "Create"} Post
+            {editSlug ? "Update" : "Publish"}
           </button>
           {editSlug && (
             <button
               type="button"
               onClick={resetForm}
-              className="rounded-lg border border-[#1a1a1a] px-4 py-2 text-sm text-[#888] transition-colors hover:text-white"
+              className="rounded border border-[#1a1a1a] px-4 py-1.5 text-xs text-[#555] transition-colors hover:text-white"
             >
               Cancel
             </button>
@@ -172,34 +167,32 @@ export default function Admin() {
         </div>
       </form>
 
-      {/* Posts list */}
       {loading ? (
-        <p className="text-center text-[#555]">Loading...</p>
+        <p className="text-center text-xs text-[#333]">Loading...</p>
       ) : (
-        <div className="space-y-3">
+        <div className="space-y-1">
           {posts.map((post) => (
             <div
               key={post.slug}
-              className="flex items-center justify-between rounded-xl border border-[#1a1a1a] bg-[#0d0d0d] px-5 py-4 transition-colors hover:border-[#333]"
+              className="group flex items-center justify-between border-b border-[#111] py-3 transition-colors hover:border-[#1a1a1a]"
             >
               <div className="min-w-0 flex-1">
-                <h3 className="truncate text-sm font-medium text-white">{post.title}</h3>
-                <div className="mt-1 flex items-center gap-3 text-xs text-[#555]">
-                  <span>{post.category}</span>
+                <p className="truncate text-sm text-white">{post.title}</p>
+                <div className="mt-0.5 flex items-center gap-2 text-[11px] text-[#333]">
+                  <span className="text-[#555]">{post.category}</span>
                   <span>{post.date}</span>
-                  <span>{post.readTime}</span>
                 </div>
               </div>
-              <div className="ml-4 flex gap-2">
+              <div className="ml-4 flex gap-3 opacity-0 transition-opacity group-hover:opacity-100">
                 <button
                   onClick={() => handleEdit(post)}
-                  className="rounded-lg border border-[#1a1a1a] px-3 py-1.5 text-xs text-[#888] transition-colors hover:border-orange-500 hover:text-orange-400"
+                  className="text-xs text-[#555] transition-colors hover:text-orange-400"
                 >
                   Edit
                 </button>
                 <button
                   onClick={() => handleDelete(post.slug)}
-                  className="rounded-lg border border-[#1a1a1a] px-3 py-1.5 text-xs text-[#888] transition-colors hover:border-red-500 hover:text-red-400"
+                  className="text-xs text-[#333] transition-colors hover:text-red-400"
                 >
                   Delete
                 </button>

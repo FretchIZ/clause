@@ -27,105 +27,82 @@ export default function BlogHome() {
 
   if (loading) {
     return (
-      <div className="flex items-center justify-center py-24">
-        <div className="h-6 w-6 animate-spin rounded-full border-2 border-[#333] border-t-orange-500" />
+      <div className="flex items-center justify-center py-32">
+        <div className="flex gap-1.5">
+          {[0, 1, 2].map((i) => (
+            <div
+              key={i}
+              className="h-2 w-2 rounded-full bg-[#333]"
+              style={{ animation: "pulse-dot 1.2s ease-in-out infinite", animationDelay: `${i * 0.2}s` }}
+            />
+          ))}
+        </div>
       </div>
     )
   }
 
-  const featured = posts.filter(() => false)
-  const recent = posts
-
   return (
     <>
-      {/* Hero */}
-      <section className="mb-12">
-        <div className="mb-2 inline-block rounded-full bg-orange-500/10 px-3 py-1 text-xs font-medium text-orange-400">
-          Technical Blog
-        </div>
-        <h1 className="text-4xl font-bold tracking-tight text-white md:text-5xl">
-          Insights on engineering
+      <section className="mb-16 animate-fade-up">
+        <h1 className="text-3xl font-light tracking-tight text-white md:text-4xl">
+          Webu.com
         </h1>
-        <p className="mt-3 max-w-2xl text-lg text-[#888]">
-          Deep dives into React, TypeScript, system design, DevOps, and
-          performance — written by engineers for engineers.
+        <p className="mt-3 max-w-lg text-sm text-[#555] leading-relaxed">
+          Notes on engineering, systems, and the craft of building software.
         </p>
       </section>
 
-      {posts.length === 0 && (
-        <div className="py-16 text-center">
-          <p className="text-[#555]">No posts yet.</p>
-          <a href="/admin" className="mt-2 inline-block text-sm text-orange-400 hover:underline">
-            Create the first post →
+      {posts.length === 0 ? (
+        <div className="animate-fade-up py-16 text-center">
+          <p className="text-sm text-[#333]">No posts yet.</p>
+          <a href="/admin" className="mt-2 inline-block text-xs text-[#555] transition-colors hover:text-white">
+            Write the first one →
           </a>
         </div>
-      )}
-
-      {/* Featured posts */}
-      {featured.length > 0 && (
-        <section className="mb-12">
-          <h2 className="mb-6 text-sm uppercase tracking-widest text-[#555]">Featured</h2>
-          <div className="grid gap-5 md:grid-cols-2">
-            {featured.map((post) => (
-              <PostCard key={post.slug} post={post} featured />
-            ))}
-          </div>
-        </section>
-      )}
-
-      <div className="mb-12 grid gap-12 lg:grid-cols-[1fr_220px]">
-        {/* Recent posts */}
-        <section>
-          {recent.length > 0 && (
-            <h2 className="mb-6 text-sm uppercase tracking-widest text-[#555]">All Posts</h2>
-          )}
-          <div className="grid gap-5 sm:grid-cols-2">
-            {recent.map((post) => (
-              <PostCard key={post.slug} post={post} />
-            ))}
-          </div>
-        </section>
-
-        {/* Sidebar */}
-        <aside className="space-y-8">
-          <div>
-            <h3 className="mb-4 text-sm uppercase tracking-widest text-[#555]">Categories</h3>
-            <div className="space-y-1">
-              {categories.length === 0 && (
-                <p className="px-3 py-2 text-sm text-[#555]">None yet</p>
-              )}
-              {categories.map((cat) => (
-                <div
-                  key={cat.name}
-                  className="flex items-center justify-between rounded-lg px-3 py-2 text-sm text-[#888] transition-colors hover:bg-[#111] hover:text-white"
-                >
-                  <span>{cat.name}</span>
-                  <span className="text-xs text-[#555]">{cat.count}</span>
+      ) : (
+        <div className="grid gap-12 lg:grid-cols-[1fr_180px]">
+          <section>
+            <div className="grid gap-6">
+              {posts.map((post, i) => (
+                <div key={post.slug} className="animate-fade-up" style={{ animationDelay: `${i * 0.05}s` }}>
+                  <PostCard post={post} />
                 </div>
               ))}
             </div>
-          </div>
+          </section>
 
-          <div>
-            <h3 className="mb-4 text-sm uppercase tracking-widest text-[#555]">Latest</h3>
-            <div className="space-y-3">
-              {posts.length === 0 && (
-                <p className="px-3 py-2 text-sm text-[#555]">No posts yet</p>
-              )}
-              {posts.slice(0, 5).map((post) => (
-                <a
-                  key={post.slug}
-                  href={`/blog/${post.slug}`}
-                  className="block rounded-lg px-3 py-2 transition-colors hover:bg-[#111]"
-                >
-                  <p className="text-sm text-white leading-snug">{post.title}</p>
-                  <p className="mt-0.5 text-xs text-[#555]">{post.date}</p>
-                </a>
+          <aside className="space-y-8">
+            <div>
+              <h3 className="mb-3 text-[11px] uppercase tracking-[0.15em] text-[#333]">Categories</h3>
+              {categories.length === 0 && <p className="text-xs text-[#333]">—</p>}
+              {categories.map((cat) => (
+                <div key={cat.name} className="flex items-center justify-between py-1.5 text-xs text-[#555]">
+                  <span>{cat.name}</span>
+                  <span className="text-[#333]">{cat.count}</span>
+                </div>
               ))}
             </div>
-          </div>
-        </aside>
-      </div>
+
+            <div>
+              <h3 className="mb-3 text-[11px] uppercase tracking-[0.15em] text-[#333]">Latest</h3>
+              {posts.length === 0 && <p className="text-xs text-[#333]">—</p>}
+              <div className="space-y-2">
+                {posts.slice(0, 5).map((post) => (
+                  <a
+                    key={post.slug}
+                    href={`/blog/${post.slug}`}
+                    className="group block py-1"
+                  >
+                    <p className="text-xs text-[#555] transition-colors group-hover:text-white leading-snug">
+                      {post.title}
+                    </p>
+                  </a>
+                ))}
+              </div>
+            </div>
+          </aside>
+        </div>
+      )}
     </>
   )
 }

@@ -32,10 +32,7 @@ export default function SearchDialog({ open, onClose }: { open: boolean; onClose
   }, [open])
 
   useEffect(() => {
-    if (!query.trim()) {
-      setResults([])
-      return
-    }
+    if (!query.trim()) { setResults([]); return }
     const q = query.toLowerCase()
     const matches = allPosts.filter(
       (p) =>
@@ -54,33 +51,23 @@ export default function SearchDialog({ open, onClose }: { open: boolean; onClose
   }
 
   function handleKey(e: React.KeyboardEvent) {
-    if (e.key === "ArrowDown") {
-      e.preventDefault()
-      setSelectedIdx((i) => Math.min(i + 1, results.length - 1))
-    } else if (e.key === "ArrowUp") {
-      e.preventDefault()
-      setSelectedIdx((i) => Math.max(i - 1, 0))
-    } else if (e.key === "Enter" && results[selectedIdx]) {
-      select(results[selectedIdx].slug)
-    } else if (e.key === "Escape") {
-      onClose()
-    }
+    if (e.key === "ArrowDown") { e.preventDefault(); setSelectedIdx((i) => Math.min(i + 1, results.length - 1)) }
+    else if (e.key === "ArrowUp") { e.preventDefault(); setSelectedIdx((i) => Math.max(i - 1, 0)) }
+    else if (e.key === "Enter" && results[selectedIdx]) { select(results[selectedIdx].slug) }
+    else if (e.key === "Escape") { onClose() }
   }
 
   if (!open) return null
 
   return (
-    <div
-      className="fixed inset-0 z-50 flex items-start justify-center pt-[15vh]"
-      onClick={onClose}
-    >
+    <div className="fixed inset-0 z-50 flex items-start justify-center pt-[15vh]" onClick={onClose}>
       <div className="fixed inset-0 bg-black/60 backdrop-blur-sm" />
       <div
-        className="relative w-full max-w-2xl rounded-xl border border-[#1a1a1a] bg-[#0d0d0d] shadow-2xl"
+        className="relative w-full max-w-xl rounded border border-[#1a1a1a] bg-[#0d0d0d] shadow-2xl"
         onClick={(e) => e.stopPropagation()}
       >
-        <div className="flex items-center gap-3 border-b border-[#1a1a1a] px-4">
-          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" className="shrink-0 text-[#555]">
+        <div className="flex items-center gap-3 border-b border-[#111] px-4">
+          <svg width="14" height="14" viewBox="0 0 16 16" fill="none" className="shrink-0 text-[#444]">
             <circle cx="6.5" cy="6.5" r="4" stroke="currentColor" strokeWidth="1.5" />
             <path d="M9.5 9.5l3 3" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
           </svg>
@@ -90,34 +77,27 @@ export default function SearchDialog({ open, onClose }: { open: boolean; onClose
             value={query}
             onChange={(e) => setQuery(e.target.value)}
             onKeyDown={handleKey}
-            placeholder="Search posts by title, tag, or category..."
-            className="flex-1 bg-transparent py-4 text-sm text-white outline-none placeholder:text-[#555]"
+            placeholder="Search posts..."
+            className="flex-1 bg-transparent py-3.5 text-sm text-white outline-none placeholder:text-[#444]"
           />
-          <kbd className="hidden rounded-md border border-[#1a1a1a] px-1.5 py-0.5 text-xs text-[#555] sm:inline">
-            ESC
-          </kbd>
+          <kbd className="rounded border border-[#1a1a1a] px-1.5 py-0.5 text-[10px] text-[#444]">ESC</kbd>
         </div>
 
         {results.length > 0 && (
-          <div className="max-h-80 overflow-y-auto p-2">
-            <p className="px-2 py-1 text-xs text-[#555]">{results.length} results</p>
+          <div className="max-h-72 overflow-y-auto p-1.5">
+            <p className="px-2 py-1 text-[10px] text-[#444]">{results.length} results</p>
             {results.map((post, i) => (
               <button
                 key={post.slug}
                 onClick={() => select(post.slug)}
                 onMouseEnter={() => setSelectedIdx(i)}
-                className={`flex w-full items-start gap-3 rounded-lg px-3 py-2.5 text-left transition-colors ${
-                  i === selectedIdx ? "bg-[#1a1a1a]" : ""
-                }`}
+                className={`flex w-full items-start gap-3 rounded px-3 py-2 text-left transition-colors ${i === selectedIdx ? "bg-[#141414]" : ""}`}
               >
                 <div className="min-w-0 flex-1">
-                  <p className="truncate text-sm font-medium text-white">{post.title}</p>
-                  <p className="mt-0.5 line-clamp-1 text-xs text-[#666]">{post.description}</p>
+                  <p className="truncate text-sm text-white">{post.title}</p>
+                  <p className="mt-0.5 line-clamp-1 text-xs text-[#555]">{post.description}</p>
                   <div className="mt-1 flex items-center gap-2">
-                    <span className="rounded bg-orange-500/10 px-1.5 py-0.5 text-[10px] font-medium text-orange-400">
-                      {post.category}
-                    </span>
-                    <span className="text-[10px] text-[#555]">{post.readTime}</span>
+                    <span className="text-[10px] text-[#555]">{post.category}</span>
                   </div>
                 </div>
               </button>
@@ -126,7 +106,7 @@ export default function SearchDialog({ open, onClose }: { open: boolean; onClose
         )}
 
         {query && results.length === 0 && (
-          <div className="p-8 text-center text-sm text-[#555]">No posts found</div>
+          <div className="p-8 text-center text-xs text-[#444]">No posts found</div>
         )}
       </div>
     </div>
