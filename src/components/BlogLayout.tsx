@@ -2,7 +2,7 @@ import { Link, useLocation } from "react-router-dom"
 
 const NAV = [
   { label: "Home", path: "/" },
-  { label: "Categories", path: "/categories" },
+  { label: "Admin", path: "/admin" },
 ]
 
 export default function BlogLayout({ children }: { children: React.ReactNode }) {
