@@ -1,4 +1,6 @@
+import { useState, useEffect } from "react"
 import { Link, useLocation } from "react-router-dom"
+import SearchDialog from "./SearchDialog"
 
 const NAV = [
   { label: "Home", path: "/" },
@@ -7,6 +9,16 @@ const NAV = [
 
 export default function BlogLayout({ children }: { children: React.ReactNode }) {
   const location = useLocation()
+  const [searchOpen, setSearchOpen] = useState(false)
+
+  useEffect(() => {
+    const handler = (e: KeyboardEvent) => {
+      if ((e.metaKey || e.ctrlKey) && e.key === "k") { e.preventDefault(); setSearchOpen(true) }
+      if (e.key === "/" && !(e.target instanceof HTMLInputElement || e.target instanceof HTMLTextAreaElement)) { e.preventDefault(); setSearchOpen(true) }
+    }
+    window.addEventListener("keydown", handler)
+    return () => window.removeEventListener("keydown", handler)
+  }, [])
 
   return (
     <div className="min-h-screen bg-[#0a0a0a] text-[#e0e0e0]">
@@ -19,23 +31,39 @@ export default function BlogLayout({ children }: { children: React.ReactNode }) 
             <span className="text-lg font-semibold text-white">TechBlog</span>
           </Link>
 
-          <nav className="flex items-center gap-1">
-            {NAV.map((n) => (
-              <Link
-                key={n.path}
-                to={n.path}
-                className={`rounded-lg px-3 py-2 text-sm transition-colors ${
-                  location.pathname === n.path
-                    ? "bg-[#1a1a1a] text-white"
-                    : "text-[#888] hover:bg-[#141414] hover:text-white"
-                }`}
-              >
-                {n.label}
-              </Link>
-            ))}
-          </nav>
+          <div className="flex items-center gap-2">
+            <button
+              onClick={() => setSearchOpen(true)}
+              className="flex items-center gap-2 rounded-lg border border-[#1a1a1a] px-3 py-1.5 text-xs text-[#555] transition-colors hover:border-[#333] hover:text-white"
+            >
+              <svg width="13" height="13" viewBox="0 0 16 16" fill="none">
+                <circle cx="6.5" cy="6.5" r="4" stroke="currentColor" strokeWidth="1.5" />
+                <path d="M9.5 9.5l3 3" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+              </svg>
+              Search
+              <kbd className="hidden rounded border border-[#1a1a1a] px-1 py-0.5 text-[10px] sm:inline">/</kbd>
+            </button>
+
+            <nav className="flex items-center gap-1">
+              {NAV.map((n) => (
+                <Link
+                  key={n.path}
+                  to={n.path}
+                  className={`rounded-lg px-3 py-2 text-sm transition-colors ${
+                    location.pathname === n.path
+                      ? "bg-[#1a1a1a] text-white"
+                      : "text-[#888] hover:bg-[#141414] hover:text-white"
+                  }`}
+                >
+                  {n.label}
+                </Link>
+              ))}
+            </nav>
+          </div>
         </div>
       </header>
+
+      <SearchDialog open={searchOpen} onClose={() => setSearchOpen(false)} />
 
       <main className="mx-auto max-w-6xl px-4 py-8">{children}</main>
 
