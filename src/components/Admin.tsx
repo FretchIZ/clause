@@ -10,6 +10,7 @@ interface Post {
   readTime: string
   tags: string[]
   author: string
+  content?: string
 }
 
 export default function Admin() {
@@ -70,13 +71,16 @@ export default function Admin() {
     fetchPosts()
   }
 
-  function handleEdit(post: Post) {
-    setTitle(post.title)
-    setDescription(post.description)
-    setCategory(post.category)
-    setContent(post.content || "")
-    setTags((post.tags || []).join(", "))
+  async function handleEdit(post: Post) {
     setEditSlug(post.slug)
+    const res = await fetch(`/api/posts/${post.slug}`)
+    const data = await res.json()
+    const full = data.post
+    setTitle(full.title)
+    setDescription(full.description)
+    setCategory(full.category)
+    setContent(full.content || "")
+    setTags((full.tags || []).join(", "))
   }
 
   function resetForm() {
@@ -144,7 +148,7 @@ export default function Admin() {
               onChange={(e) => setContent(e.target.value)}
               placeholder="Content (Markdown)"
               rows={8}
-              className="w-full border-b border-[#1a1a1a] bg-transparent px-0 py-2 text-sm text-white outline-none transition-colors focus:border-orange-500"
+              className="w-full rounded border border-[#1a1a1a] bg-[#080808] px-3 py-2 text-sm text-white outline-none transition-colors focus:border-orange-500"
             />
           </div>
         </div>
