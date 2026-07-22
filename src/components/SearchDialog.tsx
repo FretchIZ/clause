@@ -1,11 +1,19 @@
 import { useState, useEffect, useRef } from "react"
 import { useNavigate } from "react-router-dom"
-import { posts } from "../data/posts"
-import type { BlogPost } from "../types"
+
+interface Post {
+  slug: string
+  title: string
+  description: string
+  category: string
+  readTime: string
+  tags: string[]
+}
 
 export default function SearchDialog({ open, onClose }: { open: boolean; onClose: () => void }) {
   const [query, setQuery] = useState("")
-  const [results, setResults] = useState<BlogPost[]>([])
+  const [results, setResults] = useState<Post[]>([])
+  const [allPosts, setAllPosts] = useState<Post[]>([])
   const [selectedIdx, setSelectedIdx] = useState(0)
   const inputRef = useRef<HTMLInputElement>(null)
   const navigate = useNavigate()
@@ -15,6 +23,10 @@ export default function SearchDialog({ open, onClose }: { open: boolean; onClose
       setQuery("")
       setResults([])
       setSelectedIdx(0)
+      fetch("/api/posts")
+        .then((r) => r.json())
+        .then((d) => setAllPosts(d.posts || []))
+        .catch(() => {})
       setTimeout(() => inputRef.current?.focus(), 50)
     }
   }, [open])
@@ -25,17 +37,16 @@ export default function SearchDialog({ open, onClose }: { open: boolean; onClose
       return
     }
     const q = query.toLowerCase()
-    const matches = posts.filter(
+    const matches = allPosts.filter(
       (p) =>
         p.title.toLowerCase().includes(q) ||
         p.description.toLowerCase().includes(q) ||
         p.category.toLowerCase().includes(q) ||
-        p.tags.some((t) => t.toLowerCase().includes(q)) ||
-        (p.content || "").toLowerCase().includes(q),
+        (p.tags || []).some((t) => t.toLowerCase().includes(q)),
     )
     setResults(matches)
     setSelectedIdx(0)
-  }, [query])
+  }, [query, allPosts])
 
   function select(slug: string) {
     onClose()
@@ -79,7 +90,7 @@ export default function SearchDialog({ open, onClose }: { open: boolean; onClose
             value={query}
             onChange={(e) => setQuery(e.target.value)}
             onKeyDown={handleKey}
-            placeholder="Search posts by title, tag, category, or content..."
+            placeholder="Search posts by title, tag, or category..."
             className="flex-1 bg-transparent py-4 text-sm text-white outline-none placeholder:text-[#555]"
           />
           <kbd className="hidden rounded-md border border-[#1a1a1a] px-1.5 py-0.5 text-xs text-[#555] sm:inline">
