@@ -115,7 +115,7 @@ export default function Admin() {
               onChange={(e) => setTitle(e.target.value)}
               placeholder="Title"
               required
-              className="w-full border-b border-[#1a1a1a] bg-transparent px-0 py-2 text-sm text-white outline-none transition-colors focus:border-orange-500"
+              className="w-full border-b border-[#1a1a1a] bg-transparent px-0 py-2 text-sm text-white outline-none transition-colors focus:border-cyan-500"
             />
           </div>
           <div className="sm:col-span-2">
@@ -123,7 +123,7 @@ export default function Admin() {
               value={description}
               onChange={(e) => setDescription(e.target.value)}
               placeholder="Description"
-              className="w-full border-b border-[#1a1a1a] bg-transparent px-0 py-2 text-sm text-white outline-none transition-colors focus:border-orange-500"
+              className="w-full border-b border-[#1a1a1a] bg-transparent px-0 py-2 text-sm text-white outline-none transition-colors focus:border-cyan-500"
             />
           </div>
           <div>
@@ -131,7 +131,7 @@ export default function Admin() {
               value={category}
               onChange={(e) => setCategory(e.target.value)}
               placeholder="Category"
-              className="w-full border-b border-[#1a1a1a] bg-transparent px-0 py-2 text-sm text-white outline-none transition-colors focus:border-orange-500"
+              className="w-full border-b border-[#1a1a1a] bg-transparent px-0 py-2 text-sm text-white outline-none transition-colors focus:border-cyan-500"
             />
           </div>
           <div>
@@ -139,7 +139,7 @@ export default function Admin() {
               value={tags}
               onChange={(e) => setTags(e.target.value)}
               placeholder="Tags (comma separated)"
-              className="w-full border-b border-[#1a1a1a] bg-transparent px-0 py-2 text-sm text-white outline-none transition-colors focus:border-orange-500"
+              className="w-full border-b border-[#1a1a1a] bg-transparent px-0 py-2 text-sm text-white outline-none transition-colors focus:border-cyan-500"
             />
           </div>
           <div className="sm:col-span-2">
@@ -148,14 +148,14 @@ export default function Admin() {
               onChange={(e) => setContent(e.target.value)}
               placeholder="Content (Markdown)"
               rows={8}
-              className="w-full rounded border border-[#1a1a1a] bg-[#080808] px-3 py-2 text-sm text-white outline-none transition-colors focus:border-orange-500"
+              className="w-full rounded border border-[#1a1a1a] bg-[#080808] px-3 py-2 text-sm text-white outline-none transition-colors focus:border-cyan-500"
             />
           </div>
         </div>
         <div className="mt-5 flex gap-3">
           <button
             type="submit"
-            className="rounded bg-orange-500 px-4 py-1.5 text-xs font-medium text-white transition-colors hover:bg-orange-600"
+            className="rounded bg-cyan-500 px-4 py-1.5 text-xs font-medium text-white transition-colors hover:bg-cyan-600"
           >
             {editSlug ? "Update" : "Publish"}
           </button>
@@ -190,7 +190,7 @@ export default function Admin() {
               <div className="ml-4 flex gap-3 opacity-0 transition-opacity group-hover:opacity-100">
                 <button
                   onClick={() => handleEdit(post)}
-                  className="text-xs text-[#555] transition-colors hover:text-orange-400"
+                  className="text-xs text-[#555] transition-colors hover:text-cyan-400"
                 >
                   Edit
                 </button>

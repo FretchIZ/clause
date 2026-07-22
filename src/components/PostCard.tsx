@@ -15,7 +15,7 @@ export default function PostCard({ post }: { post: BlogPost }) {
         <span>{post.date}</span>
       </div>
 
-      <h3 className="mt-1.5 text-base font-medium text-white transition-colors group-hover:text-orange-400">
+      <h3 className="mt-1.5 text-base font-medium text-white transition-colors group-hover:text-cyan-400">
         {post.title}
       </h3>
 

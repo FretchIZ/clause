@@ -25,7 +25,7 @@ export default function BlogLayout({ children }: { children: React.ReactNode }) 
       <header className="sticky top-0 z-50 border-b border-[#111] bg-[#0a0a0a]/90 backdrop-blur-sm">
         <div className="mx-auto flex h-14 max-w-5xl items-center justify-between px-4">
           <Link to="/" className="flex items-center gap-2 group">
-            <span className="text-base font-medium tracking-tight text-white transition-colors group-hover:text-orange-400">
+            <span className="text-base font-medium tracking-tight text-white transition-colors group-hover:text-cyan-400">
               Webu.com
             </span>
           </Link>

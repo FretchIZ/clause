@@ -63,7 +63,7 @@ function formatInline(text: string): React.ReactNode {
   const parts = text.split(/(`[^`]+`|\*\*[^*]+\*\*|\*[^*]+\*)/g)
   return parts.map((p, i) => {
     if (p.startsWith("`") && p.endsWith("`"))
-      return <code key={i} className="rounded bg-[#141414] px-1.5 py-0.5 font-mono text-sm text-orange-400">{p.slice(1, -1)}</code>
+      return <code key={i} className="rounded bg-[#141414] px-1.5 py-0.5 font-mono text-sm text-cyan-400">{p.slice(1, -1)}</code>
     if (p.startsWith("**") && p.endsWith("**"))
       return <strong key={i} className="font-medium text-white">{p.slice(2, -2)}</strong>
     if (p.startsWith("*") && p.endsWith("*"))
